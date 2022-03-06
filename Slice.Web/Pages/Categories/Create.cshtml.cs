@@ -10,6 +10,8 @@ public class CreateModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        if (Category.Name.Equals(Category.DisplayOrder.ToString()))
+            ModelState.AddModelError("Category.Name", "Name and Display Order can not be the same");
 
         if (ModelState.IsValid)
         {
