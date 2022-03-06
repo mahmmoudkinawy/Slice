@@ -1,4 +1,4 @@
-﻿namespace Slice.Web.Data;
+﻿namespace Slice.Persistence.Data;
 public class SliceDbContext : DbContext
 {
     public SliceDbContext(DbContextOptions<SliceDbContext> options) : base(options)

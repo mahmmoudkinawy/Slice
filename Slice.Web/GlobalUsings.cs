@@ -1,7 +1,7 @@
-﻿global using System.ComponentModel.DataAnnotations;
-global using Microsoft.EntityFrameworkCore;
-global using Slice.Web.Entities;
-global using Slice.Web.Data;
+﻿global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.RazorPages;
-global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
 global using System.Diagnostics;
+global using Slice.Models.Entities;
+global using Slice.Persistence.Data;
+

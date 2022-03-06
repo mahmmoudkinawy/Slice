@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Slice.Web.Data.Migrations
+namespace Slice.Persistence.Data.Migrations
 {
     public partial class AddedCategoriesTableToDb : Migration
     {

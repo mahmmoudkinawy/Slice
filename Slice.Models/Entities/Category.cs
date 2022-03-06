@@ -1,4 +1,4 @@
-﻿namespace Slice.Web.Entities;
+﻿namespace Slice.Models.Entities;
 public class Category
 {
     public int Id { get; set; }
