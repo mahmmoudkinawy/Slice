@@ -1,0 +1,38 @@
+﻿@page
+@model Slice.Web.Pages.Categories.IndexModel
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Category List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-page="Create" class="btn btn-primary">
+                Create New Category
+            </a>
+        </div>
+    </div>
+
+    <br /><br />
+    <table class="table table-bordered table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>Category Name</th>
+                <th>Display Order</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>@category.DisplayOrder</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
