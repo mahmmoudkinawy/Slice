@@ -1,0 +1,25 @@
+﻿@page
+@model Slice.Web.Pages.Categories.DeleteModel
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<form method="post">
+    <input asp-for="Category.Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-default pl-3">Delete Category</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Category.Name"></label>
+            <input asp-for="Category.Name" class="form-control" disabled />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Category.DisplayOrder"></label>
+            <input asp-for="Category.DisplayOrder" class="form-control" disabled />
+        </div>
+        <button class="btn btn-danger" type="submit">Delete</button>
+    </div>
+</form>
+
