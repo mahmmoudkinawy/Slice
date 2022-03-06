@@ -1,4 +1,4 @@
-namespace Slice.Web.Pages.Categories;
+namespace Slice.Web.Pages.Admin.Categories;
 public class DeleteModel : PageModel
 {
     private readonly SliceDbContext _context;

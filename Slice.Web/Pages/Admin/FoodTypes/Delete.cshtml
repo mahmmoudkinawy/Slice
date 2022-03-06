@@ -1,0 +1,22 @@
+﻿@page
+@model FoodTypes.DeleteModel
+@{
+    ViewData["Title"] = "Delete Food Type";
+}
+
+<form method="post">
+    <input asp-for="FoodType.Id" hidden />
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-default pl-3">Delete Food Type</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="FoodType.Name"></label>
+            <input asp-for="FoodType.Name" class="form-control" disabled />
+        </div>
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a class="btn btn-dark" asp-page="Index">Back to List</a>
+    </div>
+</form>
+

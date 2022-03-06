@@ -1,0 +1,56 @@
+﻿@page
+@model FoodTypes.IndexModel
+@{
+    ViewData["Title"] = "Food Types";
+}
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Food Type List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-page="Create" class="btn btn-dark">
+                <i class="bi bi-plus-square-fill"></i> Create New Food Type
+            </a>
+        </div>
+    </div>
+
+    <br /><br />
+
+    @if (Model.FoodTypes.Any())
+    {
+        <table class="table table-bordered table-striped" width="100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var foodType in Model.FoodTypes)
+                {
+                    <tr>
+                        <td>@foodType.Name</td>
+                        <td>
+                            <div class="w-75 btn-group">
+                                <a asp-page="Edit" class="btn btn-primary" asp-route-id="@foodType.Id">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <a asp-page="Delete" class="btn btn-danger" asp-route-id="@foodType.Id">
+                                    <i class="bi bi-eraser-fill"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-dark" role="alert">
+            Hmmm there is no Food Types at all!!
+        </div>
+    }
+</div>
