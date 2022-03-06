@@ -10,7 +10,7 @@
             <h2 class="text-primary">Category List</h2>
         </div>
         <div class="col-6 text-end">
-            <a asp-page="Create" class="btn btn-primary">
+            <a asp-page="Create" class="btn btn-dark">
                 <i class="bi bi-plus-square-fill"></i> Create New Category
             </a>
         </div>
@@ -33,7 +33,7 @@
                     <td>@category.DisplayOrder</td>
                     <td>
                         <div class="w-75 btn-group">
-                            <a asp-page="Edit" class="btn btn-warning" asp-route-id="@category.Id">
+                            <a asp-page="Edit" class="btn btn-primary" asp-route-id="@category.Id">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
                             <a asp-page="Delete" class="btn btn-danger" asp-route-id="@category.Id">
