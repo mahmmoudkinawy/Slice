@@ -18,6 +18,7 @@ public class DeleteModel : PageModel
         {
             _context.Categories.Remove(categoryToDelete);
             await _context.SaveChangesAsync();
+            TempData["success"] = "Category Deleted Successfully";
             return RedirectToPage("Index");
         }
         return Page();

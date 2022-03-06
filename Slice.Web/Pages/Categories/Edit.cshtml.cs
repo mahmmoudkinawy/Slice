@@ -20,6 +20,7 @@ public class EditModel : PageModel
         {
             _context.Categories.Update(Category);
             await _context.SaveChangesAsync();
+            TempData["success"] = "Category Updated Successfully";
             return RedirectToPage("Index");
         }
 

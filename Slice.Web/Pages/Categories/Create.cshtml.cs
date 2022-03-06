@@ -17,6 +17,7 @@ public class CreateModel : PageModel
         {
             _context.Categories.Add(Category);
             await _context.SaveChangesAsync();
+            TempData["success"] = "Category Created Successfully";
             return RedirectToPage("Index");
         }
 
