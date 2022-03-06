@@ -11,7 +11,7 @@
         </div>
         <div class="col-6 text-end">
             <a asp-page="Create" class="btn btn-primary">
-                Create New Category
+                <i class="bi bi-plus-square-fill"></i> Create New Category
             </a>
         </div>
     </div>
@@ -22,6 +22,7 @@
             <tr>
                 <th>Category Name</th>
                 <th>Display Order</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -30,6 +31,16 @@
                 <tr>
                     <td>@category.Name</td>
                     <td>@category.DisplayOrder</td>
+                    <td>
+                        <div class="w-75 btn-group">
+                            <a asp-page="Edit" class="btn btn-warning" asp-route-id="@category.Id">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a asp-page="Delete" class="btn btn-danger" asp-route-id="@category.Id">
+                                <i class="bi bi-eraser-fill"></i>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
