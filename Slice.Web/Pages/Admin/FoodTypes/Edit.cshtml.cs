@@ -1,22 +1,22 @@
 namespace Slice.Web.Pages.Admin.FoodTypes;
 public class EditModel : PageModel
 {
-    private readonly SliceDbContext _context;
+    private readonly IGenericRepository<FoodType> _foodTypeRepository;
 
     [BindProperty]
     public FoodType FoodType { get; set; }
 
-    public EditModel(SliceDbContext context) => _context = context;
+    public EditModel(IGenericRepository<FoodType> foodTypeRepository)
+        => _foodTypeRepository = foodTypeRepository;
 
     public async Task OnGetAsync(int id)
-        => FoodType = await _context.FoodTypes.FindAsync(id);
+        => FoodType = await _foodTypeRepository.GetFirstOrDefaultAsync(f => f.Id == id);
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (ModelState.IsValid)
         {
-            _context.FoodTypes.Update(FoodType);
-            await _context.SaveChangesAsync();
+            await _foodTypeRepository.Update(FoodType);
             TempData["success"] = "Food Type Updated Successfully";
             return RedirectToPage("Index");
         }

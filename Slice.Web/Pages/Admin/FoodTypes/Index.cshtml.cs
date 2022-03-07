@@ -1,11 +1,13 @@
 namespace Slice.Web.Pages.Admin.FoodTypes;
 public class IndexModel : PageModel
 {
-    private readonly SliceDbContext _context;
+    private readonly IGenericRepository<FoodType> _foodTypeRepository;
+
     public IReadOnlyList<FoodType> FoodTypes { get; set; }
 
-    public IndexModel(SliceDbContext context) => _context = context;
+    public IndexModel(IGenericRepository<FoodType> foodTypeRepository)
+            => _foodTypeRepository = foodTypeRepository;
 
     public async Task OnGet()
-        => FoodTypes = await _context.FoodTypes.ToListAsync();
+        => FoodTypes = await _foodTypeRepository.GetAllAsync();
 }

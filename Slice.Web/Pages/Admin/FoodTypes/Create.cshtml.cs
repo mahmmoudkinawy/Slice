@@ -1,19 +1,19 @@
 namespace Slice.Web.Pages.Admin.FoodTypes;
 public class CreateModel : PageModel
 {
-    private readonly SliceDbContext _context;
+    private readonly IGenericRepository<FoodType> _foodTypeRepository;
 
     [BindProperty]
     public FoodType FoodType { get; set; }
 
-    public CreateModel(SliceDbContext context) => _context = context;
+    public CreateModel(IGenericRepository<FoodType> foodTypeRepository)
+        => _foodTypeRepository = foodTypeRepository;
 
     public async Task<IActionResult> OnPostAsync()
     {
         if (ModelState.IsValid)
         {
-            _context.FoodTypes.Add(FoodType);
-            await _context.SaveChangesAsync();
+            await _foodTypeRepository.Add(FoodType);
             TempData["success"] = "Food Type Created Successfully";
             return RedirectToPage("Index");
         }

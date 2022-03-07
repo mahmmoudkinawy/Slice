@@ -1,23 +1,25 @@
 namespace Slice.Web.Pages.Admin.FoodTypes;
 public class DeleteModel : PageModel
 {
-    private readonly SliceDbContext _context;
+    private readonly IGenericRepository<FoodType> _foodTypeRepository;
 
     [BindProperty]
     public FoodType FoodType { get; set; }
 
-    public DeleteModel(SliceDbContext context) => _context = context;
+    public DeleteModel(IGenericRepository<FoodType> foodTypeRepository)
+        => _foodTypeRepository = foodTypeRepository;
 
     public async Task OnGetAsync(int id)
-        => FoodType = await _context.FoodTypes.FindAsync(id);
+        => FoodType = await _foodTypeRepository.GetFirstOrDefaultAsync(f => f.Id == id);
 
     public async Task<IActionResult> OnPostAsync()
     {
-        var foodTypeToDelete = await _context.FoodTypes.FindAsync(FoodType.Id);
+        var foodTypeToDelete = await _foodTypeRepository.
+            GetFirstOrDefaultAsync(f => f.Id == FoodType.Id);
+
         if (foodTypeToDelete != null)
         {
-            _context.FoodTypes.Remove(foodTypeToDelete);
-            await _context.SaveChangesAsync();
+            await _foodTypeRepository.Remove(FoodType);
             TempData["success"] = "Food Type Deleted Successfully";
             return RedirectToPage("Index");
         }
