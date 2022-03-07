@@ -19,7 +19,7 @@ public class DeleteModel : PageModel
 
         if (foodTypeToDelete != null)
         {
-            await _foodTypeRepository.Remove(FoodType);
+            await _foodTypeRepository.Remove(foodTypeToDelete);
             TempData["success"] = "Food Type Deleted Successfully";
             return RedirectToPage("Index");
         }
