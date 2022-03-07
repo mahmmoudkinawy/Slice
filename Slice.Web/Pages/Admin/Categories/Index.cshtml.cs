@@ -1,11 +1,13 @@
 namespace Slice.Web.Pages.Admin.Categories;
 public class IndexModel : PageModel
 {
-    private readonly SliceDbContext _context;
+    private readonly IGenericRepository<Category> _categoryRepository;
+
     public IReadOnlyList<Category> Categories { get; set; }
 
-    public IndexModel(SliceDbContext context) => _context = context;
+    public IndexModel(IGenericRepository<Category> categoryRepository)
+        => _categoryRepository = categoryRepository;
 
     public async Task OnGet()
-        => Categories = await _context.Categories.ToListAsync();
+        => Categories = await _categoryRepository.GetAllAsync();
 }

@@ -5,7 +5,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public GenericRepository(SliceDbContext context) => _context = context;
 
-    public async Task<IEnumerable<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
+    public async Task<IReadOnlyList<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
 
     public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>>? filter = null)
     {

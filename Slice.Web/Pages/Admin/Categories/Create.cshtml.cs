@@ -1,12 +1,13 @@
 namespace Slice.Web.Pages.Admin.Categories;
 public class CreateModel : PageModel
 {
-    private readonly SliceDbContext _context;
+    private readonly IGenericRepository<Category> _categoryRepository;
 
     [BindProperty]
     public Category Category { get; set; }
 
-    public CreateModel(SliceDbContext context) => _context = context;
+    public CreateModel(IGenericRepository<Category> categoryRepository) 
+        => _categoryRepository = categoryRepository;
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -15,8 +16,7 @@ public class CreateModel : PageModel
 
         if (ModelState.IsValid)
         {
-            _context.Categories.Add(Category);
-            await _context.SaveChangesAsync();
+            await _categoryRepository.Add(Category);
             TempData["success"] = "Category Created Successfully";
             return RedirectToPage("Index");
         }
