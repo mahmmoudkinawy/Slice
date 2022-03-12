@@ -1,0 +1,32 @@
+﻿@page
+@model Products.IndexModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Menu Item List</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary" asp-page="Upsert">
+                <i class="bi bi-plus-square"></i> &nbsp; Create New Product
+            </a>
+        </div>
+    </div>
+
+    <br /><br />
+
+    <table class="table table-bordered table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Food Type</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>

@@ -1,0 +1,59 @@
+﻿@page
+@model Products.UpsertModel
+@{
+    ViewData["Title"] = "Upsert";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary pl-3">
+                @(Model.Product.Id != 0 ? "Update" : "Create") Product
+            </h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.Name"></label>
+            <input asp-for="Product.Name" class="form-control" />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.Description"></label>
+            <input asp-for="Product.Description" class="form-control" />
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.Price"></label>
+            <input asp-for="Product.Price" class="form-control" />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.PublicId"></label>
+            <input type="file" name="files" id="uploadBox" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.CategoryId"></label>
+            <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select">
+                <option disabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Product.FoodTypeId"></label>
+            <select asp-for="Product.FoodTypeId" asp-items="Model.FoodTypes" class="form-select">
+                <option disabled selected>--Select Food Type--</option>
+            </select>
+            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:150px;">
+            @(Model.Product.Id != 0 ? "Update":"Create")
+        </button>
+        <a asp-page="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+    </div>
+</form>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
