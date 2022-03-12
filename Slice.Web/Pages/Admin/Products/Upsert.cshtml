@@ -5,51 +5,70 @@
 }
 
 <form method="post" enctype="multipart/form-data">
+    <input asp-for="Product.Id" hidden />
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h2 class="text-primary pl-3">
-                @(Model.Product.Id != 0 ? "Update" : "Create") Product
-            </h2>
-            <hr />
+            <div class="col-9">
+                <h2 class="text-primary pl-3">
+                    @(Model.Product.Id!=0 ? "Update" : "Create") Product
+                </h2>
+                <hr />
+
+                <div class="mb-3">
+                    <label asp-for="Product.Name"></label>
+                    <input asp-for="Product.Name" class="form-control" />
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.Description"></label>
+                    <textarea asp-for="Product.Description" class="form-control"></textarea>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.Price"></label>
+                    <input asp-for="Product.Price" class="form-control" />
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.PublicId"></label>
+                    <input type="file" name="file" id="uploadBox" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Product.CategoryId"></label>
+                    <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select">
+                        <option disabled selected>-Select Category-</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Product.FoodTypeId"></label>
+                    <select asp-for="Product.FoodTypeId" asp-items="Model.FoodTypes" class="form-select">
+                        <option disabled selected>-Select Food Type-</option>
+                    </select>
+                    <span asp-validation-for="Product.FoodTypeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-3">
+                @if (Model.Product.Id != 0)
+                {
+                    <img src="@Model.Product.PublicId" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+                }
+            </div>
         </div>
-        <div class="mb-3">
-            <label asp-for="Product.Name"></label>
-            <input asp-for="Product.Name" class="form-control" />
-            <span asp-validation-for="Product.Name" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.Description"></label>
-            <textarea asp-for="Product.Description" class="form-control"></textarea>
-            <span asp-validation-for="Product.Description" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.Price"></label>
-            <input asp-for="Product.Price" class="form-control" />
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.PublicId"></label>
-            <input type="file" name="file" id="uploadBox" class="form-control" />
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.CategoryId"></label>
-            <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select">
-                <option disabled selected>--Select Category--</option>
-            </select>
-            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label asp-for="Product.FoodTypeId"></label>
-            <select asp-for="Product.FoodTypeId" asp-items="Model.FoodTypes" class="form-select">
-                <option disabled selected>--Select Food Type--</option>
-            </select>
-            <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
-        </div>
-        <button class="btn btn-primary" type="submit" style="width:150px;">
-            @(Model.Product.Id != 0 ? "Update":"Create")
-        </button>
-        <a asp-page="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+        @if (Model.Product.Id != 0)
+        {
+            <button type="submit" class="btn btn-primary" style="width:150px;">Update</button>
+        }
+        else
+        {
+            <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px;">Create</button>
+        }
+
+        <a asp-page="Index" class="btn btn-secondary" style="width:150px;"> Back to List</a>
+
     </div>
+
 </form>
 
 @section Scripts{

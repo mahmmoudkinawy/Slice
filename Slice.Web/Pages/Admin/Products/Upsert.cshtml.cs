@@ -23,12 +23,15 @@ public class UpsertModel : PageModel
         _photoService = photoService;
     }
 
-    public async Task OnGet()
+    public async Task OnGet(int? id)
     {
+        if (id != null)
+            Product = await _productRepository.GetFirstOrDefaultAsync(p => p.Id == id);
+        else
+            Product = new();
+
         var foodTypesFromDb = await _foodTypeRepository.GetAllAsync();
         var categoriesFromDb = await _categoryRepository.GetAllAsync();
-
-        Product = new();
 
         FoodTypes = foodTypesFromDb.Select(f => new SelectListItem
         {
@@ -54,7 +57,21 @@ public class UpsertModel : PageModel
         }
         else
         {
+            var productFromDb = await _productRepository.GetFirstOrDefaultAsync(p => p.Id == Product.Id);
+            if (file?.Length > 0)
+            {
+                var imageResult = await _photoService.AddPhotoAsync(file);
+                productFromDb.PublicId = imageResult.Url.ToString();
+            }
 
+            //Can not bind Product because it has been tracking by another 
+            productFromDb.Name = Product.Name;
+            productFromDb.Description = Product.Description;
+            productFromDb.FoodTypeId = Product.FoodTypeId;
+            productFromDb.CategoryId = Product.CategoryId;
+
+            TempData["success"] = "Product Updated Successfully";
+            await _productRepository.Update(productFromDb);
         }
         return RedirectToPage("Index");
     }
