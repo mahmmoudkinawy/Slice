@@ -10,6 +10,6 @@ public class ProductsController : Controller
         => _productRepository = productRepository;
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> GetProducts()
         => Json(new { data = await _productRepository.GetAllAsync("Category,FoodType") });
 }

@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/css/bootswatchTheme.css" />
+    <link rel="stylesheet" href="~/css/theme.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Slice.Web.styles.css" asp-append-version="true" />
 </head>
@@ -63,7 +64,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <script src="https://cdn.tiny.cloud/1/w05vkq6l9oj7bn3g4huni6hgzu41shh3a5wv7y0f2qrnfpxx/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
