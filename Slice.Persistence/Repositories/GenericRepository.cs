@@ -5,8 +5,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public GenericRepository(SliceDbContext context) => _context = context;
 
-    public async Task<IReadOnlyList<T>> GetAllAsync() => await _context.Set<T>().ToListAsync();
+    public async Task<IReadOnlyList<T>> GetAllAsync(string? includeProperties = null)
+    {
+        IQueryable<T> query = _context.Set<T>();
 
+        if (includeProperties != null)
+
+            foreach (var property in includeProperties.Split(new char[] { ',' },
+                    StringSplitOptions.RemoveEmptyEntries))
+                query = query.Include(property);
+
+        return await query.ToListAsync();
+    }
     public async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>>? filter = null)
     {
         IQueryable<T> query = _context.Set<T>();

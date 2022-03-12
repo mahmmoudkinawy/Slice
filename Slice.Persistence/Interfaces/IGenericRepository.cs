@@ -1,7 +1,7 @@
 ﻿namespace Slice.Persistence.Interfaces;
 public interface IGenericRepository<T> : IDisposable where T : class
 {
-    Task<IReadOnlyList<T>> GetAllAsync();
+    Task<IReadOnlyList<T>> GetAllAsync(string? includeProperties = null);
     Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>>? filter = null);
     Task Add(T entity);
     Task Update(T entity);
