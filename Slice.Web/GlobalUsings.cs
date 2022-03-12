@@ -11,3 +11,4 @@ global using Slice.Web.Middleware;
 global using Microsoft.AspNetCore.Mvc.Rendering;
 global using Slice.Persistence.Services;
 global using Slice.Persistence.Helpers;
+global using Slice.Web.Extensions;
