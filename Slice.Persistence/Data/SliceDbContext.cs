@@ -6,4 +6,5 @@ public class SliceDbContext : DbContext
 
     public DbSet<Category> Categories { get; set; }
     public DbSet<FoodType> FoodTypes { get; set; }
+    public DbSet<Product> Products { get; set; }
 }
