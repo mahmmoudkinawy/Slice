@@ -15,7 +15,7 @@ $(document).ready(function () {
                 "data": "id",
                 "render": function (data) {
                     return `<div class="w-75 btn-group" >
-                            <a href="/Admin/Productss/upsert?id=${data}"  class="btn btn-success text-white mx-2">
+                            <a href="/Admin/Products/upsert?id=${data}"  class="btn btn-success text-white mx-2">
                             <i class="bi bi-pencil-square"></i>  </a>
                             <a onClick="Delete('/api/Products/'+${data})"  class="btn btn-danger text-white mx-2">
                              <i class="bi bi-trash-fill"></i>  </a>
