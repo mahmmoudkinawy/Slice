@@ -1,6 +1,8 @@
 namespace Slice.Web.Pages.Admin.Products;
 public class UpsertModel : PageModel
 {
+    //I know the constructor must not inject to much Interfaces as I did 
+    //I will try to refactor it and I know I can do it using unit of work, but I'm trying to avoid this
     private readonly IGenericRepository<Product> _productRepository;
     private readonly IGenericRepository<FoodType> _foodTypeRepository;
     private readonly IGenericRepository<Category> _categoryRepository;
@@ -33,17 +35,8 @@ public class UpsertModel : PageModel
         var foodTypesFromDb = await _foodTypeRepository.GetAllAsync();
         var categoriesFromDb = await _categoryRepository.GetAllAsync();
 
-        FoodTypes = foodTypesFromDb.Select(f => new SelectListItem
-        {
-            Text = f.Name,
-            Value = f.Id.ToString()
-        });
-
-        Categories = categoriesFromDb.Select(c => new SelectListItem
-        {
-            Text = c.Name,
-            Value = c.Id.ToString()
-        });
+        FoodTypes = foodTypesFromDb.ToSelectListItem();
+        Categories = categoriesFromDb.ToSelectListItem();
     }
 
     public async Task<IActionResult> OnPostAsync(IFormFile file)
