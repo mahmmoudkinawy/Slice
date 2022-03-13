@@ -1,7 +1,7 @@
 ﻿@page
 @model Products.UpsertModel
 @{
-    ViewData["Title"] = "Upsert";
+    ViewData["Title"] = @Model.Product.Id != 0 ? "Update" : "Create";
 }
 
 <form method="post" enctype="multipart/form-data">
@@ -35,17 +35,13 @@
                 </div>
                 <div class="mb-3">
                     <label asp-for="Product.CategoryId"></label>
-                    <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select">
-                        <option disabled selected>-Select Category-</option>
-                    </select>
+                    <select asp-for="Product.CategoryId" asp-items="Model.Categories" class="form-select"></select>
                     <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="Product.FoodTypeId"></label>
-                    <select asp-for="Product.FoodTypeId" asp-items="Model.FoodTypes" class="form-select">
-                        <option disabled selected>-Select Food Type-</option>
-                    </select>
+                    <select asp-for="Product.FoodTypeId" asp-items="Model.FoodTypes" class="form-select"></select>
                     <span asp-validation-for="Product.FoodTypeId" class="text-danger"></span>
                 </div>
             </div>
