@@ -17,6 +17,6 @@ public class IndexModel : PageModel
     public async Task OnGet()
     {
         Products = await _productRepository.GetAllAsync(includeProperties: "Category,FoodType");
-        Categories = await _categoryRepository.GetAllAsync();
+        Categories = await _categoryRepository.GetAllAsync(orderBy: c => c.OrderBy(c => c.DisplayOrder));
     }
 }

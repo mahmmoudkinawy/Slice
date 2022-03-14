@@ -5,15 +5,22 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public GenericRepository(SliceDbContext context) => _context = context;
 
-    public async Task<IReadOnlyList<T>> GetAllAsync(string? includeProperties = null)
+    public async Task<IReadOnlyList<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null,
+        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
+        string? includeProperties = null)
     {
         IQueryable<T> query = _context.Set<T>();
 
-        if (includeProperties != null)
+        if (filter != null)
+            query = query.Where(filter);
 
+        if (includeProperties != null)
             foreach (var property in includeProperties.Split(new char[] { ',' },
                     StringSplitOptions.RemoveEmptyEntries))
                 query = query.Include(property);
+
+        if (orderBy != null)
+            return await orderBy(query).ToListAsync();
 
         return await query.ToListAsync();
     }

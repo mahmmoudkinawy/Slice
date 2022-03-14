@@ -11,7 +11,7 @@ public class ProductsController : Controller
 
     [HttpGet]
     public async Task<IActionResult> GetProducts()
-        => Json(new { data = await _productRepository.GetAllAsync("Category,FoodType") });
+        => Json(new { data = await _productRepository.GetAllAsync(includeProperties: "Category,FoodType") });
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct(int id)
