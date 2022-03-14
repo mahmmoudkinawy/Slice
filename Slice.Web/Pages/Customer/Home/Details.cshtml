@@ -32,8 +32,9 @@
                                         <p class="text-secondary">@Html.Raw(Model.Product.Description)</p>
 
                                         <div class="form-floating my-2">
-                                            <input class="form-control" aria-required="true" />
-                                            <label>Count</label>
+                                            <input asp-for="Count" class="form-control" aria-required="true" />
+                                            <label asp-for="Count"></label>
+                                            <span asp-validation-for="Count" class="text-danger"></span>
                                         </div>
 
                                     </div>
@@ -61,3 +62,9 @@
         </div>
     </form>
 </div>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}

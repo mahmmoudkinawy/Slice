@@ -5,6 +5,9 @@ public class DetailsModel : PageModel
 
     public Product Product { get; set; }
 
+    [Range(1, 100, ErrorMessage = "Please select value from 1 to 100")]
+    public int Count { get; set; }
+
     public DetailsModel(IGenericRepository<Product> productRepository)
         => _productRepository = productRepository;
 
