@@ -1,5 +1,6 @@
 ﻿@page
 @model RegisterModel
+@using Slice.Utilities
 @{
     ViewData["Title"] = "Register";
 }
@@ -13,6 +14,11 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
                 <input asp-for="Input.FirstName" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.FirstName"></label>
                 <span asp-validation-for="Input.FirstName" class="text-danger"></span>
@@ -21,11 +27,6 @@
                 <input asp-for="Input.LastName" class="form-control" autocomplete="username" aria-required="true" />
                 <label asp-for="Input.LastName"></label>
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating">
                 <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="username" aria-required="true" />
@@ -41,6 +42,11 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating my-2">
+                <input type="radio" name="radioUserRole" value="@Constants.ManagerRole" />@Constants.ManagerRole
+                <input type="radio" name="radioUserRole" value="@Constants.KitchenRole" />@Constants.KitchenRole
+                <input type="radio" name="radioUserRole" value="@Constants.FrontDeskRole" />@Constants.FrontDeskRole
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

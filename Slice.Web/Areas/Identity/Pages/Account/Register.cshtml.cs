@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
+using Slice.Utilities;
 using System.Text;
 using System.Text.Encodings.Web;
 
@@ -18,13 +19,15 @@ namespace Slice.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -32,6 +35,7 @@ namespace Slice.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         /// <summary>
@@ -88,7 +92,7 @@ namespace Slice.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Display(Name ="First Name")]
+            [Display(Name = "First Name")]
             public string FirstName { get; set; }
 
             [Required]
@@ -97,12 +101,22 @@ namespace Slice.Web.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "Phone Number")]
+            [RegularExpression(@"^01[0-2]\d{1,8}$", ErrorMessage = "Please enter a valid Egyption phone number")]
             public string PhoneNumber { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            //Temporary code
+            if (!await _roleManager.RoleExistsAsync(Constants.ManagerRole))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(Constants.ManagerRole));
+                await _roleManager.CreateAsync(new IdentityRole(Constants.KitchenRole));
+                await _roleManager.CreateAsync(new IdentityRole(Constants.FrontDeskRole));
+                await _roleManager.CreateAsync(new IdentityRole(Constants.CustomerRole));
+            }
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -124,6 +138,23 @@ namespace Slice.Web.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    //temporary code
+                    string role = Request.Form["radioUserRole"].ToString();
+                    if (role == Constants.ManagerRole)
+                        await _userManager.AddToRoleAsync(user, Constants.ManagerRole);
+                    else
+                    {
+                        if (role == Constants.KitchenRole)
+                            await _userManager.AddToRoleAsync(user, Constants.KitchenRole);
+                        else
+                        {
+                            if (role == Constants.FrontDeskRole)
+                                await _userManager.AddToRoleAsync(user, Constants.FrontDeskRole);
+                            else
+                                await _userManager.AddToRoleAsync(user, Constants.CustomerRole);
+                        }
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);

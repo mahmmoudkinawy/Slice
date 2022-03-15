@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Slice.Persistence\Slice.Persistence.csproj" />
+    <ProjectReference Include="..\Slice.Utilities\Slice.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

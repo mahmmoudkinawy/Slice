@@ -1,10 +1,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDefaultIdentity<IdentityUser>()
-    .AddEntityFrameworkStores<SliceDbContext>();
-
 builder.Services.AddApplicationServices(builder.Configuration);
+
+builder.Services.AddIdentityServices();
 
 var app = builder.Build();
 
