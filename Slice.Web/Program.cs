@@ -1,10 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<SliceDbContext>();
-// Add services to the container.
 
 builder.Services.AddApplicationServices(builder.Configuration);
 

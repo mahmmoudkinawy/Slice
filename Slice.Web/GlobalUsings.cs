@@ -13,3 +13,4 @@ global using Slice.Persistence.Services;
 global using Slice.Persistence.Helpers;
 global using Slice.Web.Extensions;
 global using System.ComponentModel.DataAnnotations;
+global using Microsoft.AspNetCore.Identity;

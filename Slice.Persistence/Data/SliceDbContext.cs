@@ -7,4 +7,5 @@ public class SliceDbContext : IdentityDbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<FoodType> FoodTypes { get; set; }
     public DbSet<Product> Products { get; set; }
+    public DbSet<AppUser> AppUsers { get; set; }
 }
