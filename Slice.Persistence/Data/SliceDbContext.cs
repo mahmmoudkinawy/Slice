@@ -1,5 +1,5 @@
 ﻿namespace Slice.Persistence.Data;
-public class SliceDbContext : DbContext
+public class SliceDbContext : IdentityDbContext
 {
     public SliceDbContext(DbContextOptions<SliceDbContext> options) : base(options)
     { }
