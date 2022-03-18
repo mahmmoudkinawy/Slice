@@ -31,7 +31,15 @@ public class DetailsModel : PageModel
     {
         if (ModelState.IsValid)
         {
-            await _cartRepository.Add(Cart);
+            var cartFromDb = await _cartRepository.GetFirstOrDefaultAsync(
+                filter: u => u.AppUserId == User.GetUserId() &&
+                u.ProductId == Cart.ProductId);
+
+            if (cartFromDb == null)
+                await _cartRepository.Add(Cart);
+            else
+                await _cartRepository.IncrementCount(cartFromDb, Cart.Count);
+
             TempData["success"] = "Added Products Successfully";
             return RedirectToPage("Index");
         }
