@@ -20,4 +20,32 @@ public class IndexModel : PageModel
             CartTotal += (item.Product.Price * item.Count);
     }
 
+    public async Task<IActionResult> OnPostPlus(int cartId)
+    {
+        var cartFromDb = await _cartRepository.GetFirstOrDefaultAsync(c => c.Id == cartId);
+        await _cartRepository.IncrementCount(cartFromDb, 1);
+        return RedirectToPage("/Customer/ShoppingCart/Index");
+    }
+
+    public async Task<IActionResult> OnPostMinus(int cartId)
+    {
+        var cartFromDb = await _cartRepository.GetFirstOrDefaultAsync(c => c.Id == cartId);
+
+        if (cartFromDb.Count == 1)
+            await _cartRepository.Remove(cartFromDb);
+        else
+            await _cartRepository.DecrementCount(cartFromDb, 1);
+
+        return RedirectToPage("/Customer/ShoppingCart/Index");
+    }
+
+    public async Task<IActionResult> OnPostRemove(int cartId)
+    {
+        var cartFromDb = await _cartRepository.GetFirstOrDefaultAsync(c => c.Id == cartId);
+
+        await _cartRepository.Remove(cartFromDb);
+
+        return RedirectToPage("/Customer/ShoppingCart/Index");
+    }
+
 }
