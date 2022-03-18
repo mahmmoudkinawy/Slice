@@ -9,10 +9,12 @@ public class Cart
     public int ProductId { get; set; }
 
     [ForeignKey(nameof(ProductId))]
+    [ValidateNever]
     public Product Product { get; set; }
 
     public string AppUserId { get; set; }
 
     [ForeignKey(nameof(AppUserId))]
+    [ValidateNever]
     public AppUser AppUser { get; set; }
 }
