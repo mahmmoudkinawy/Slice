@@ -1,5 +1,3 @@
-using System.Security.Claims;
-
 namespace Slice.Web.Pages.Customer.Home;
 
 [Authorize]
@@ -20,15 +18,12 @@ public class DetailsModel : PageModel
 
     public async Task OnGetAsync([FromQuery] int id)
     {
-        var claimsIdentity = (ClaimsIdentity)User.Identity;
-        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
         Cart = new()
         {
             ProductId = id,
             Product = await _productRepository.GetFirstOrDefaultAsync(p => p.Id == id,
                 includeProperties: "Category,FoodType"),
-            AppUserId = userId
+            AppUserId = User.GetUserId()
         };
     }
 
