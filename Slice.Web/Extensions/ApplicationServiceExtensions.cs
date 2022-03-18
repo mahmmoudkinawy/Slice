@@ -15,6 +15,8 @@ public static class ApplicationServiceExtensions
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
+        services.AddScoped<ICartRepository, CartRepository>();
+
         return services;
     }
 }
