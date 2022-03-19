@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Slice.Persistence.Data;
@@ -11,9 +12,10 @@ using Slice.Persistence.Data;
 namespace Slice.Persistence.Data.Migrations
 {
     [DbContext(typeof(SliceDbContext))]
-    partial class SliceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220319142153_AddedOrderHeaderAndOrderDetailTablesToDb")]
+    partial class AddedOrderHeaderAndOrderDetailTablesToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
