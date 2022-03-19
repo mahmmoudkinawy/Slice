@@ -13,10 +13,6 @@ public static class ApplicationServiceExtensions
 
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
-        services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-        services.AddScoped<ICartRepository, CartRepository>();
-
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

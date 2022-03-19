@@ -3,25 +3,20 @@ namespace Slice.Web.Pages.Customer.Home;
 [Authorize]
 public class DetailsModel : PageModel
 {
-    private readonly ICartRepository _cartRepository;
-    private readonly IGenericRepository<Product> _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     [BindProperty]
     public Cart Cart { get; set; }
 
-    public DetailsModel(ICartRepository cartRepository,
-        IGenericRepository<Product> productRepository)
-    {
-        _cartRepository = cartRepository;
-        _productRepository = productRepository;
-    }
+    public DetailsModel(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
 
     public async Task OnGetAsync([FromQuery] int id)
     {
         Cart = new()
         {
             ProductId = id,
-            Product = await _productRepository.GetFirstOrDefaultAsync(p => p.Id == id,
+            Product = await _unitOfWork.ProductRepository.GetFirstOrDefaultAsync(p => p.Id == id,
                 includeProperties: "Category,FoodType"),
             AppUserId = User.GetUserId()
         };
@@ -31,14 +26,14 @@ public class DetailsModel : PageModel
     {
         if (ModelState.IsValid)
         {
-            var cartFromDb = await _cartRepository.GetFirstOrDefaultAsync(
+            var cartFromDb = await _unitOfWork.CartRepository.GetFirstOrDefaultAsync(
                 filter: u => u.AppUserId == User.GetUserId() &&
                 u.ProductId == Cart.ProductId);
 
             if (cartFromDb == null)
-                await _cartRepository.Add(Cart);
+                await _unitOfWork.CartRepository.Add(Cart);
             else
-                await _cartRepository.IncrementCount(cartFromDb, Cart.Count);
+                await _unitOfWork.CartRepository.IncrementCount(cartFromDb, Cart.Count);
 
             TempData["success"] = "Added Products Successfully";
             return RedirectToPage("Index");

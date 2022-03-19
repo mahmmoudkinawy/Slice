@@ -3,10 +3,7 @@ namespace Slice.Web.Pages.Customer.ShoppingCart;
 [Authorize]
 public class SummaryModel : PageModel
 {
-    private readonly ICartRepository _cartRepository;
-    private readonly IGenericRepository<OrderHeader> _orderHeaderRepository;
-    private readonly IGenericRepository<OrderDetail> _orderDetailRepository;
-    private readonly IGenericRepository<AppUser> _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public IReadOnlyList<Cart> CartList { get; set; }
 
@@ -14,28 +11,23 @@ public class SummaryModel : PageModel
     public OrderHeader OrderHeader { get; set; }
 
     //I know that userRepository is a bad practise I will refactor it later
-    public SummaryModel(ICartRepository cartRepository,
-        IGenericRepository<OrderHeader> orderHeaderRepository,
-        IGenericRepository<OrderDetail> orderDetailRepository,
-        IGenericRepository<AppUser> userRepository)
+    public SummaryModel(IUnitOfWork unitOfWork)
     {
-        _cartRepository = cartRepository;
-        _orderHeaderRepository = orderHeaderRepository;
-        _orderDetailRepository = orderDetailRepository;
-        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
         OrderHeader = new();
     }
 
     public async Task OnGetAsync()
     {
-        CartList = await _cartRepository.GetAllAsync(
+        CartList = await _unitOfWork.CartRepository.GetAllAsync(
            filter: u => u.AppUserId == User.GetUserId(),
            includeProperties: "Product,Product.Category,Product.FoodType");
 
         foreach (var item in CartList)
             OrderHeader.OrderTotal += (item.Product.Price * item.Count);
 
-        var loggedInUser = await _userRepository.GetFirstOrDefaultAsync(u => u.Id == User.GetUserId());
+        var loggedInUser = await _unitOfWork.AppUserRepository.
+                            GetFirstOrDefaultAsync(u => u.Id == User.GetUserId());
 
         OrderHeader.PickUpName = $"{loggedInUser.FirstName} {loggedInUser.LastName}";
         OrderHeader.PhoneNumber = loggedInUser.PhoneNumber;
@@ -43,7 +35,7 @@ public class SummaryModel : PageModel
 
     public async Task OnPostAsync()
     {
-        CartList = await _cartRepository.GetAllAsync(
+        CartList = await _unitOfWork.CartRepository.GetAllAsync(
            filter: u => u.AppUserId == User.GetUserId(),
            includeProperties: "Product,Product.Category,Product.FoodType");
 
@@ -57,7 +49,7 @@ public class SummaryModel : PageModel
         //OrderHeader.PickUpTime = Convert.ToDateTime(OrderHeader.PickUpDate.ToShortDateString() + " " +
         //   OrderHeader.PickUpTime.ToShortTimeString()); //Error because of PostgreSQL
 
-        await _orderHeaderRepository.Add(OrderHeader);
+        await _unitOfWork.OrderHeaderRepository.Add(OrderHeader);
 
         foreach (var item in CartList)
         {
@@ -69,10 +61,10 @@ public class SummaryModel : PageModel
                 Price = item.Product.Price,
                 Count = item.Count
             };
-            await _orderDetailRepository.Add(orderDetails);
+            await _unitOfWork.OrderDetailRepository.Add(orderDetails);
         }
 
-        await _cartRepository.RemoveRange(CartList);
+        await _unitOfWork.CartRepository.RemoveRange(CartList);
     }
 
 
