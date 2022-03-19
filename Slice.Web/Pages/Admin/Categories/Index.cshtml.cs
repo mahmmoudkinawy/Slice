@@ -1,13 +1,13 @@
 namespace Slice.Web.Pages.Admin.Categories;
 public class IndexModel : PageModel
 {
-    private readonly IGenericRepository<Category> _categoryRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public IReadOnlyList<Category> Categories { get; set; }
 
-    public IndexModel(IGenericRepository<Category> categoryRepository)
-        => _categoryRepository = categoryRepository;
+    public IndexModel(IUnitOfWork unitOfWork)
+            => _unitOfWork = unitOfWork;
 
     public async Task OnGet()
-        => Categories = await _categoryRepository.GetAllAsync();
+        => Categories = await _unitOfWork.CategoryRepository.GetAllAsync();
 }

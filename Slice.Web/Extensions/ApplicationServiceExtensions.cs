@@ -17,6 +17,8 @@ public static class ApplicationServiceExtensions
 
         services.AddScoped<ICartRepository, CartRepository>();
 
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 }

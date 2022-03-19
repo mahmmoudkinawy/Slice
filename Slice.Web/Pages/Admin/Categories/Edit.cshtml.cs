@@ -1,16 +1,16 @@
 namespace Slice.Web.Pages.Admin.Categories;
 public class EditModel : PageModel
 {
-    private readonly IGenericRepository<Category> _categoryRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     [BindProperty]
     public Category Category { get; set; }
 
-    public EditModel(IGenericRepository<Category> categoryRepository)
-        => _categoryRepository = categoryRepository;
+    public EditModel(IUnitOfWork unitOfWork)
+        => _unitOfWork = unitOfWork;
 
     public async Task OnGetAsync(int id)
-        => Category = await _categoryRepository.GetFirstOrDefaultAsync(c => c.Id == id);
+        => Category = await _unitOfWork.CategoryRepository.GetFirstOrDefaultAsync(c => c.Id == id);
 
     public async Task<IActionResult> OnPostAsync()
     {
@@ -19,7 +19,7 @@ public class EditModel : PageModel
 
         if (ModelState.IsValid)
         {
-            await _categoryRepository.Update(Category);
+            await _unitOfWork.CategoryRepository.Update(Category);
             TempData["success"] = "Category Updated Successfully";
             return RedirectToPage("Index");
         }
