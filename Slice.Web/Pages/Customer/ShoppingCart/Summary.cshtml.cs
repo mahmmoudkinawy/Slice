@@ -72,7 +72,7 @@ public class SummaryModel : PageModel
         {
             LineItems = new List<SessionLineItemOptions>(),
             Mode = "payment",
-            SuccessUrl = domain + "/Customer/Home/Index",
+            SuccessUrl = domain + $"/Customer/ShoppingCart/OrderConfirmation?id={OrderHeader.Id}",
             CancelUrl = domain + "/cancel.html"
         };
 
@@ -97,10 +97,11 @@ public class SummaryModel : PageModel
         var service = new SessionService();
         Session session = service.Create(options);
 
+        OrderHeader.SessionId = session.Id;
+        OrderHeader.PaymentIntentId = session.PaymentIntentId;
+        await _unitOfWork.SaveChangesAsync();
+
         Response.Headers.Add("Location", session.Url);
         return new StatusCodeResult(303);
-
     }
-
-
 }
