@@ -13,6 +13,8 @@ public static class ApplicationServiceExtensions
 
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
+        services.Configure<StripeSettings>(config.GetSection("Stripe"));
+
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
