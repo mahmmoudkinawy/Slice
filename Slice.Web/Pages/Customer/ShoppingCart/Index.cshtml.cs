@@ -25,6 +25,7 @@ public class IndexModel : PageModel
     {
         var cartFromDb = await _unitOfWork.CartRepository.GetFirstOrDefaultAsync(c => c.Id == cartId);
         await _unitOfWork.CartRepository.IncrementCount(cartFromDb, 1);
+        await _unitOfWork.SaveChangesAsync();
         return RedirectToPage("/Customer/ShoppingCart/Index");
     }
 
@@ -37,6 +38,7 @@ public class IndexModel : PageModel
         else
             await _unitOfWork.CartRepository.DecrementCount(cartFromDb, 1);
 
+        await _unitOfWork.SaveChangesAsync();
         return RedirectToPage("/Customer/ShoppingCart/Index");
     }
 
@@ -45,6 +47,7 @@ public class IndexModel : PageModel
         var cartFromDb = await _unitOfWork.CartRepository.GetFirstOrDefaultAsync(c => c.Id == cartId);
 
         await _unitOfWork.CartRepository.Remove(cartFromDb);
+        await _unitOfWork.SaveChangesAsync();
 
         return RedirectToPage("/Customer/ShoppingCart/Index");
     }

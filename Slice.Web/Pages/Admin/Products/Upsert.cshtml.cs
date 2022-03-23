@@ -5,7 +5,7 @@ public class UpsertModel : PageModel
     private readonly IPhotoService _photoService;
 
     [BindProperty]
-    public Product Product { get; set; }
+    public Models.Entities.Product Product { get; set; }
     public IEnumerable<SelectListItem> FoodTypes { get; set; }
     public IEnumerable<SelectListItem> Categories { get; set; }
 

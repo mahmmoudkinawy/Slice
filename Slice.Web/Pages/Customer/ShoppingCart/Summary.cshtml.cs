@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.Extensions;
+
 namespace Slice.Web.Pages.Customer.ShoppingCart;
 
 [Authorize]
@@ -32,7 +34,7 @@ public class SummaryModel : PageModel
         OrderHeader.PhoneNumber = loggedInUser.PhoneNumber;
     }
 
-    public async Task OnPostAsync()
+    public async Task<IActionResult> OnPostAsync()
     {
         CartList = await _unitOfWork.CartRepository.GetAllAsync(
            filter: u => u.AppUserId == User.GetUserId(),
@@ -68,27 +70,27 @@ public class SummaryModel : PageModel
         await _unitOfWork.CartRepository.RemoveRange(CartList);
         await _unitOfWork.SaveChangesAsync();
 
-        //var domain = "http://localhost:4242";
-        //var options = new SessionCreateOptions
-        //{
-        //    LineItems = new List<SessionLineItemOptions>
-        //        {
-        //          new SessionLineItemOptions
-        //          {
-        //            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        //            Price = "{{PRICE_ID}}",
-        //            Quantity = 1,
-        //          },
-        //        },
-        //    Mode = "payment",
-        //    SuccessUrl = domain + "/success.html",
-        //    CancelUrl = domain + "/cancel.html",
-        //};
-        //var service = new SessionService();
-        //Session session = service.Create(options);
+        var domain = "http://" + HttpContext.Request.Host;
+        var options = new SessionCreateOptions
+        {
+            LineItems = new List<SessionLineItemOptions>
+                {
+                  new SessionLineItemOptions
+                  {
+                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+                    Price = "{{PRICE_ID}}",
+                    Quantity = 1,
+                  },
+                },
+            Mode = "payment",
+            SuccessUrl = domain + "/success.html",
+            CancelUrl = domain + "/cancel.html",
+        };
+        var service = new SessionService();
+        Session session = service.Create(options);
 
-        //Response.Headers.Add("Location", session.Url);
-        //return new StatusCodeResult(303);
+        Response.Headers.Add("Location", session.Url);
+        return new StatusCodeResult(303);
 
     }
 

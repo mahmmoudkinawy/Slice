@@ -35,6 +35,7 @@ public class DetailsModel : PageModel
             else
                 await _unitOfWork.CartRepository.IncrementCount(cartFromDb, Cart.Count);
 
+            await _unitOfWork.SaveChangesAsync();
             TempData["success"] = "Added Products Successfully";
             return RedirectToPage("Index");
         }

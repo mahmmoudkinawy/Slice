@@ -3,7 +3,7 @@ public class IndexModel : PageModel
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public IReadOnlyList<Product> Products { get; set; }
+    public IReadOnlyList<Models.Entities.Product> Products { get; set; }
     public IReadOnlyList<Category> Categories { get; set; }
 
     public IndexModel(IUnitOfWork unitOfWork)
