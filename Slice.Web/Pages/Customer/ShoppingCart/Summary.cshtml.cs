@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http.Extensions;
-
 namespace Slice.Web.Pages.Customer.ShoppingCart;
 
 [Authorize]
@@ -67,25 +65,35 @@ public class SummaryModel : PageModel
             await _unitOfWork.SaveChangesAsync();
         }
 
-        await _unitOfWork.CartRepository.RemoveRange(CartList);
         await _unitOfWork.SaveChangesAsync();
 
-        var domain = "http://" + HttpContext.Request.Host;
+        var domain = "https://" + HttpContext.Request.Host;
         var options = new SessionCreateOptions
         {
-            LineItems = new List<SessionLineItemOptions>
-                {
-                  new SessionLineItemOptions
-                  {
-                    // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-                    Price = "{{PRICE_ID}}",
-                    Quantity = 1,
-                  },
-                },
+            LineItems = new List<SessionLineItemOptions>(),
             Mode = "payment",
-            SuccessUrl = domain + "/success.html",
-            CancelUrl = domain + "/cancel.html",
+            SuccessUrl = domain + "/Customer/Home/Index",
+            CancelUrl = domain + "/cancel.html"
         };
+
+        foreach (var item in CartList)
+        {
+            var sessionLineItem = new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    UnitAmount = (long)(item.Product.Price * 100),
+                    Currency = "usd",
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = item.Product.Name
+                    }
+                },
+                Quantity = item.Count
+            };
+            options.LineItems.Add(sessionLineItem);
+        }
+
         var service = new SessionService();
         Session session = service.Create(options);
 

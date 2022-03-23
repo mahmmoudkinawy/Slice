@@ -1,5 +1,6 @@
 ﻿@page
 @model Customer.ShoppingCart.SummaryModel
+@inject IOptions<StripeSettings> Stripe
 @{
     ViewData["Title"] = "Summary";
 }
@@ -113,6 +114,8 @@
 
 @section Scripts{
     @{
+    <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <partial name="_ValidationScriptsPartial" />
     }
 }
