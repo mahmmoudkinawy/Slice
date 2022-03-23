@@ -1,4 +1,4 @@
-﻿namespace Slice.Persistence.Helpers;
+﻿namespace Slice.Utilities.Helpers;
 public class CloudinarySettings
 {
     public string CloudName { get; set; }

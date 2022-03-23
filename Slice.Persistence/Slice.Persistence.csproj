@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Slice.Models\Slice.Models.csproj" />
+    <ProjectReference Include="..\Slice.Utilities\Slice.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

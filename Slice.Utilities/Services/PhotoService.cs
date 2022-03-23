@@ -1,4 +1,4 @@
-﻿namespace Slice.Persistence.Services;
+﻿namespace Slice.Utilities.Services;
 public class PhotoService : IPhotoService
 {
     private readonly Cloudinary _cloudinary;
