@@ -17,6 +17,7 @@ public class CreateModel : PageModel
         if (ModelState.IsValid)
         {
             await _unitOfWork.CategoryRepository.Add(Category);
+            await _unitOfWork.SaveChangesAsync();
             TempData["success"] = "Category Created Successfully";
             return RedirectToPage("Index");
         }

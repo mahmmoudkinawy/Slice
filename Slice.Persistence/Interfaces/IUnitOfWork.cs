@@ -8,4 +8,7 @@ public interface IUnitOfWork
     IGenericRepository<OrderDetail> OrderDetailRepository { get; }
     IGenericRepository<AppUser> AppUserRepository { get; } //I know this is a bad Idea, but I will try to refactor it.
     ICartRepository CartRepository { get; }
+
+    //I know that I'm breaking Single Responsiblity
+    Task SaveChangesAsync();
 }

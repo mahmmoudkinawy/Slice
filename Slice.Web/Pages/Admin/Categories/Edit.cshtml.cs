@@ -20,6 +20,7 @@ public class EditModel : PageModel
         if (ModelState.IsValid)
         {
             await _unitOfWork.CategoryRepository.Update(Category);
+            await _unitOfWork.SaveChangesAsync();
             TempData["success"] = "Category Updated Successfully";
             return RedirectToPage("Index");
         }

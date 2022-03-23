@@ -14,6 +14,7 @@ public class CreateModel : PageModel
         if (ModelState.IsValid)
         {
             await _unitOfWork.FoodTypeRepository.Add(FoodType);
+            await _unitOfWork.SaveChangesAsync();
             TempData["success"] = "Food Type Created Successfully";
             return RedirectToPage("Index");
         }

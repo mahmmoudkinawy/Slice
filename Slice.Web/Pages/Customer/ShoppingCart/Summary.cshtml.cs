@@ -10,7 +10,6 @@ public class SummaryModel : PageModel
     [BindProperty]
     public OrderHeader OrderHeader { get; set; }
 
-    //I know that userRepository is a bad practise I will refactor it later
     public SummaryModel(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
@@ -50,6 +49,7 @@ public class SummaryModel : PageModel
         //   OrderHeader.PickUpTime.ToShortTimeString()); //Error because of PostgreSQL
 
         await _unitOfWork.OrderHeaderRepository.Add(OrderHeader);
+        await _unitOfWork.SaveChangesAsync();
 
         foreach (var item in CartList)
         {
@@ -62,9 +62,34 @@ public class SummaryModel : PageModel
                 Count = item.Count
             };
             await _unitOfWork.OrderDetailRepository.Add(orderDetails);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         await _unitOfWork.CartRepository.RemoveRange(CartList);
+        await _unitOfWork.SaveChangesAsync();
+
+        //var domain = "http://localhost:4242";
+        //var options = new SessionCreateOptions
+        //{
+        //    LineItems = new List<SessionLineItemOptions>
+        //        {
+        //          new SessionLineItemOptions
+        //          {
+        //            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
+        //            Price = "{{PRICE_ID}}",
+        //            Quantity = 1,
+        //          },
+        //        },
+        //    Mode = "payment",
+        //    SuccessUrl = domain + "/success.html",
+        //    CancelUrl = domain + "/cancel.html",
+        //};
+        //var service = new SessionService();
+        //Session session = service.Create(options);
+
+        //Response.Headers.Add("Location", session.Url);
+        //return new StatusCodeResult(303);
+
     }
 
 

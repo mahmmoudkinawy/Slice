@@ -17,6 +17,7 @@ public class EditModel : PageModel
         if (ModelState.IsValid)
         {
             await _unitOfWork.FoodTypeRepository.Update(FoodType);
+            await _unitOfWork.SaveChangesAsync();
             TempData["success"] = "Food Type Updated Successfully";
             return RedirectToPage("Index");
         }

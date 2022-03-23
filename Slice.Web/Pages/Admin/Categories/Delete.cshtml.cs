@@ -20,6 +20,7 @@ public class DeleteModel : PageModel
         if (categoryToDelete != null)
         {
             await _unitOfWork.CategoryRepository.Remove(categoryToDelete);
+            await _unitOfWork.SaveChangesAsync();
             TempData["success"] = "Category Deleted Successfully";
             return RedirectToPage("Index");
         }

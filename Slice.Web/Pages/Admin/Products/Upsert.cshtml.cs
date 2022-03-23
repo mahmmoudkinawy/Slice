@@ -39,6 +39,7 @@ public class UpsertModel : PageModel
             Product.PublicId = imageResult.Url.ToString();
             TempData["success"] = "Product Created Successfully";
             await _unitOfWork.ProductRepository.Add(Product);
+            await _unitOfWork.SaveChangesAsync();
         }
         else
         {
@@ -57,6 +58,7 @@ public class UpsertModel : PageModel
 
             TempData["success"] = "Product Updated Successfully";
             await _unitOfWork.ProductRepository.Update(productFromDb);
+            await _unitOfWork.SaveChangesAsync();
         }
         return RedirectToPage("Index");
     }

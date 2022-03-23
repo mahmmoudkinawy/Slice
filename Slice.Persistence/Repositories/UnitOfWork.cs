@@ -23,4 +23,5 @@ public class UnitOfWork : IUnitOfWork
     public IGenericRepository<OrderDetail> OrderDetailRepository { get; private set; }
     public ICartRepository CartRepository { get; private set; }
 
+    public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 }
