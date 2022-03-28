@@ -19,7 +19,7 @@ Slice-Pizza shop app built with Clean Architecture by using Asp.net Core Razor P
 
 ### Executing program
 
-- Just run it, I will seed the data then it will work.
+- Just run it, I seeded the data then it will work.
 
 ## Help
 
