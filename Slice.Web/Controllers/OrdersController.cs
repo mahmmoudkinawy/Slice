@@ -25,6 +25,7 @@ public class OrdersController : Controller
         else
             orderHeadersFromDb.Where(o => o.Status == Constants.StatusReady);
 
+        //Switch case produces and error bebause of IReadOnlyList
         //orderHeadersFromDb = status switch
         //{
         //    "cancelled" => orderHeadersFromDb.Where(o => o.Status == Constants.StatusCancelled),
