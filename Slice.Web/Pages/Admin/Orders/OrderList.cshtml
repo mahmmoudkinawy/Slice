@@ -2,12 +2,50 @@
 @model Admin.Orders.OrderListModel
 @{
     ViewData["Title"] = "Orders";
+
+    var status = HttpContext.Request.Query["status"];
+    var cancelled = "text-primary";
+    var completed = "text-primary";
+    var ready = "text-primary";
+    var inProcess = "text-primary";
+
+    switch (status)
+    {
+        case "cancelled":
+            cancelled = "active text-dark";
+            break;
+        case "completed":
+            completed = "active text-dark";
+            break;
+        case "ready":
+            ready = "active text-dark";
+            break;
+        case "inProcess":
+            inProcess = "active text-dark";
+            break;
+    }
 }
 
 <div class="container">
-    <div class="row pt-4">
-        <div class="col-6">
+    <div class="d-flex justify-content-between">
+        <div class="p-2">
             <h2 class="text-primary">Order List</h2>
+        </div>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration: none;" asp-page="OrderList" asp-route-status="cancelled">
+                <li class="list-group-item @cancelled">Cancelled</li>
+                </a>
+                <a style="text-decoration: none;" asp-page="OrderList" asp-route-status="completed">
+                <li class="list-group-item @completed">Completed</li>
+                </a>
+                <a style="text-decoration: none;" asp-page="OrderList" asp-route-status="ready">
+                <li class="list-group-item @ready">Ready</li>
+                </a>
+                <a style="text-decoration: none;" asp-page="OrderList" asp-route-status="inProcess">
+                <li class="list-group-item @inProcess">In Process</li>
+                </a>
+            </ul>
         </div>
     </div>
 
@@ -29,5 +67,5 @@
 
 
 @section Scripts{
-    <script src="~/js/order-list.js"></script>
+<script src="~/js/order-list.js"></script>
 }
