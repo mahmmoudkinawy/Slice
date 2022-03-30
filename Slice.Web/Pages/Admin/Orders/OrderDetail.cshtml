@@ -67,8 +67,9 @@
                 </div>
             </div>
             <div class="col-lg-4 col-12">
-                <h4 class="d-flex justify-content-between align-content-center mb-3">
-                    <span class="text-muted">Order ID: </span>
+                <button type="submit" disabled class="btn btn-outline-info form-control">@Model.OrderHeaderViewModel.OrderHeader.Status</button>
+                <h4 class="d-flex justify-content-between align-content-center mb-3 pt-3">
+                    <span class="text-muted">Order ID: #@Model.OrderHeaderViewModel.OrderHeader.Id</span>
                     <span class="badge badge-secondary badge-pill">@Model.OrderHeaderViewModel.OrderHeader.Id</span>
                 </h4>
                 <ul class="list-group mb-3">
@@ -87,15 +88,35 @@
                         <strong class="text-info">@Model.OrderHeaderViewModel.OrderHeader.OrderTotal.ToString("c")</strong>
                     </li>
                 </ul>
-                <button type="submit" disabled class="btn btn-info form-control">ORDER STATUS</button>
-
                 <div class="row pt-3">
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-warning form-control"><i class="bi bi-x-square"></i> Cancel Order</button>
-                    </div>
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-danger form-control"><i class="bi bi-currency-dollar"></i> Refund Order</button>
-                    </div>
+                    @if (Model.OrderHeaderViewModel.OrderHeader.Status == Constants.StatusReady &&
+                    (User.IsInRole(Constants.ManagerRole) || User.IsInRole(Constants.FrontDeskRole)))
+                    {
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary form-control"
+                                asp-page-handler="OrderCompleted" asp-route-orderId="@Model.OrderHeaderViewModel.OrderHeader.Id">
+                                Complete Order
+                            </button>
+                        </div>
+                    }
+                    @if ((User.IsInRole(Constants.ManagerRole) || User.IsInRole(Constants.FrontDeskRole))
+                    && (Model.OrderHeaderViewModel.OrderHeader.Status == Constants.StatusReady ||
+                    Model.OrderHeaderViewModel.OrderHeader.Status == Constants.StatusSubmitted ||
+                    Model.OrderHeaderViewModel.OrderHeader.Status == Constants.StatusInProcess))
+                    {
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-warning form-control"
+                                asp-page-handler="OrderCancel" asp-route-orderId="@Model.OrderHeaderViewModel.OrderHeader.Id">
+                                <i class="bi bi-x-square"></i> Cancel Order
+                            </button>
+                        </div>
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-danger form-control"
+                                asp-page-handler="OrderRefund" asp-route-orderId="@Model.OrderHeaderViewModel.OrderHeader.Id">
+                                <i class="bi bi-currency-dollar"></i> Refund Order
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
