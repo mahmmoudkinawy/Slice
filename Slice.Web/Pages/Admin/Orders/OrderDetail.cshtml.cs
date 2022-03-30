@@ -19,4 +19,34 @@ public class OrderDetailModel : PageModel
                             GetAllAsync(o => o.OrderHeaderId == id)
         };
     }
+
+    public async Task<IActionResult> OnPostOrderCompleted(int orderId)
+    {
+        await _unitOfWork.OrderHeaderRepository.UpdateStatus(orderId, Constants.StatusCompleted);
+        return RedirectToPage("OrderList");
+    }
+
+    public async Task<IActionResult> OnPostOrderCancel(int orderId)
+    {
+        await _unitOfWork.OrderHeaderRepository.UpdateStatus(orderId, Constants.StatusCancelled);
+        return RedirectToPage("OrderList");
+    }
+
+    public async Task<IActionResult> OnPostOrderRefund(int orderId)
+    {
+        var orderHeaderFromDb = await _unitOfWork.OrderHeaderRepository.
+                GetFirstOrDefaultAsync(o => o.Id == orderId);
+
+        var options = new RefundCreateOptions
+        {
+            Reason = RefundReasons.RequestedByCustomer,
+            PaymentIntent = orderHeaderFromDb.PaymentIntentId
+        };
+
+        var service = new RefundService();
+        var refund = await service.CreateAsync(options);
+
+        await _unitOfWork.OrderHeaderRepository.UpdateStatus(orderId, Constants.StatusRefunded);
+        return RedirectToPage("OrderList");
+    }
 }
