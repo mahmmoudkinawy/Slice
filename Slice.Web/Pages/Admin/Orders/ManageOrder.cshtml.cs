@@ -1,6 +1,6 @@
 namespace Slice.Web.Pages.Admin.Orders;
 
-[Authorize]
+[Authorize(Roles = $"{Constants.ManagerRole},{Constants.KitchenRole}")]
 public class ManageOrderModel : PageModel
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -25,6 +25,25 @@ public class ManageOrderModel : PageModel
             };
             OrderDetailViewModels.Add(individual);
         }
-
     }
+
+    //I will refactor it.
+    public async Task<IActionResult> OnPostOrderInProcess(int orderId)
+    {
+        await _unitOfWork.OrderHeaderRepository.UpdateStatus(orderId, Constants.StatusInProcess);
+        return RedirectToPage("ManageOrder");
+    }
+
+    public async Task<IActionResult> OnPostOrderReady(int orderId)
+    {
+        await _unitOfWork.OrderHeaderRepository.UpdateStatus(orderId, Constants.StatusReady);
+        return RedirectToPage("ManageOrder");
+    }
+
+    public async Task<IActionResult> OnPostOrderCancel(int orderId)
+    {
+        await _unitOfWork.OrderHeaderRepository.UpdateStatus(orderId, Constants.StatusCancelled);
+        return RedirectToPage("ManageOrder");
+    }
+
 }

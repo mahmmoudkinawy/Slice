@@ -10,8 +10,8 @@ public class UnitOfWork : IUnitOfWork
         FoodTypeRepository = new GenericRepository<FoodType>(_context);
         ProductRepository = new GenericRepository<Product>(_context);
         AppUserRepository = new GenericRepository<AppUser>(_context);
-        OrderHeaderRepository = new GenericRepository<OrderHeader>(_context);
         OrderDetailRepository = new GenericRepository<OrderDetail>(_context);
+        OrderHeaderRepository = new OrderHeaderRepository(_context);
         CartRepository = new CartRepository(_context);
     }
 
@@ -19,7 +19,7 @@ public class UnitOfWork : IUnitOfWork
     public IGenericRepository<FoodType> FoodTypeRepository { get; private set; }
     public IGenericRepository<Product> ProductRepository { get; private set; }
     public IGenericRepository<AppUser> AppUserRepository { get; private set; }
-    public IGenericRepository<OrderHeader> OrderHeaderRepository { get; private set; }
+    public IOrderHeaderRepository OrderHeaderRepository { get; private set; }
     public IGenericRepository<OrderDetail> OrderDetailRepository { get; private set; }
     public ICartRepository CartRepository { get; private set; }
 

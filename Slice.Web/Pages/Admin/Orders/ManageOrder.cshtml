@@ -31,13 +31,23 @@
                     </div>
                     <div class="col-3 offset-1 d-flex align-content-center">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary form-control mb-3">
-                                <i class="bi bi-check-square"></i> &nbsp; Start Cooking
-                            </button>
-                            <button type="submit" class="btn btn-success form-control mb-3">
-                                <i class="bi bi-emoji-laughing"></i> &nbsp; Order Ready
-                            </button>
-                            <button type="submit" class="btn btn-warning form-control mb-3">
+                            @if (item.OrderHeader.Status == Constants.StatusSubmitted)
+                            {
+                                <button type="submit" class="btn btn-primary form-control mb-3"
+                                asp-page-handler="OrderInProcess" asp-route-orderId="@item.OrderHeader.Id">
+                                    <i class="bi bi-check-square"></i> &nbsp; Start Cooking
+                                </button>
+                            }
+
+                            @if (item.OrderHeader.Status == Constants.StatusInProcess)
+                            {
+                                <button type="submit" class="btn btn-success form-control mb-3"
+                                asp-page-handler="OrderReady" asp-route-orderId="@item.OrderHeader.Id">
+                                    <i class="bi bi-emoji-laughing"></i> &nbsp; Order Ready
+                                </button>
+                            }
+                            <button type="submit" class="btn btn-warning form-control mb-3"
+                                asp-page-handler="OrderCancel" asp-route-orderId="@item.OrderHeader.Id">
                                 <i class="bi bi-x-square-fill"></i> &nbsp; Cancel Order
                             </button>
                         </div>
