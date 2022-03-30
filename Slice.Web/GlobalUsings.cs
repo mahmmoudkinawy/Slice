@@ -20,3 +20,4 @@ global using Microsoft.AspNetCore.Authorization;
 global using System.Security.Claims;
 global using Stripe.Checkout;
 global using Stripe;
+global using Slice.Models.ViewModels;
