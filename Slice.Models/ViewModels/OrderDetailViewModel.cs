@@ -1,5 +1,5 @@
 ﻿namespace Slice.Models.ViewModels;
-public class OrderHeaderViewModel
+public class OrderDetailViewModel
 {
     public OrderHeader OrderHeader { get; set; }
 

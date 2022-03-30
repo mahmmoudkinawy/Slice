@@ -5,7 +5,7 @@ public class OrderDetailModel : PageModel
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public OrderHeaderViewModel OrderHeaderViewModel { get; set; }
+    public OrderDetailViewModel OrderHeaderViewModel { get; set; }
 
     public OrderDetailModel(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
 
