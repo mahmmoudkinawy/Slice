@@ -1,0 +1,33 @@
+﻿@page
+@model Admin.Orders.OrderListModel
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Order List</h2>
+        </div>
+    </div>
+
+    <br /><br />
+
+    <table id="loadData" class="table table-bordered table-striped" width="100%">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Order Total</th>
+                <th>Pickup Time</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/order-list.js"></script>
+}
