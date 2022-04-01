@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Slice.Utilities
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -46,11 +48,22 @@
                                 </a>
                             </div>
                         </li>
-                        <li>
-                            <a class="nav-link text-white" asp-area="" asp-page="/Customer/ShoppingCart/Index">
-                                <i class="bi bi-cart"></i>
-                            </a>
-                        </li>
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(Constants.SessionCart) != null)
+                        {
+                            <li>
+                                <a class="nav-link text-white" asp-area="" asp-page="/Customer/ShoppingCart/Index">
+                                    <i class="bi bi-cart"></i> &nbsp; (@HttpContextAccessor.HttpContext.Session.GetInt32(Constants.SessionCart))
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="nav-link text-white" asp-area="" asp-page="/Customer/ShoppingCart/Index">
+                                    <i class="bi bi-cart"></i> &nbsp; (0)
+                                </a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

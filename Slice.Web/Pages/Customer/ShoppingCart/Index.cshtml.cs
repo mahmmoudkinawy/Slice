@@ -8,7 +8,7 @@ public class IndexModel : PageModel
     public double CartTotal { get; set; }
     public IReadOnlyList<Cart> CartList { get; set; }
 
-    public IndexModel(IUnitOfWork unitOfWork )
+    public IndexModel(IUnitOfWork unitOfWork)
         => _unitOfWork = unitOfWork;
 
     public async Task OnGet()
@@ -34,7 +34,11 @@ public class IndexModel : PageModel
         var cartFromDb = await _unitOfWork.CartRepository.GetFirstOrDefaultAsync(c => c.Id == cartId);
 
         if (cartFromDb.Count == 1)
+        {
             await _unitOfWork.CartRepository.Remove(cartFromDb);
+            var shoppingCart = await _unitOfWork.CartRepository.GetAllAsync(u => u.AppUserId == User.GetUserId());
+            HttpContext.Session.SetInt32(Constants.SessionCart, shoppingCart.Count - 1);
+        }
         else
             await _unitOfWork.CartRepository.DecrementCount(cartFromDb, 1);
 
@@ -48,6 +52,9 @@ public class IndexModel : PageModel
 
         await _unitOfWork.CartRepository.Remove(cartFromDb);
         await _unitOfWork.SaveChangesAsync();
+
+        var shoppingCart = await _unitOfWork.CartRepository.GetAllAsync(u => u.AppUserId == User.GetUserId());
+        HttpContext.Session.SetInt32(Constants.SessionCart, shoppingCart.Count - 1);
 
         return RedirectToPage("/Customer/ShoppingCart/Index");
     }

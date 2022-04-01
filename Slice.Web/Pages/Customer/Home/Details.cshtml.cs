@@ -31,7 +31,13 @@ public class DetailsModel : PageModel
                 u.ProductId == Cart.ProductId);
 
             if (cartFromDb == null)
+            {
+                var shoppingCart = await
+                    _unitOfWork.CartRepository.GetAllAsync(u => u.AppUserId == User.GetUserId());
+
                 await _unitOfWork.CartRepository.Add(Cart);
+                HttpContext.Session.SetInt32(Constants.SessionCart, shoppingCart.Count + 1);
+            }
             else
                 await _unitOfWork.CartRepository.IncrementCount(cartFromDb, Cart.Count);
 
