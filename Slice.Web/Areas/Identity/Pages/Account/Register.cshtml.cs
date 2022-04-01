@@ -175,6 +175,11 @@ namespace Slice.Web.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        if (User.IsInRole(Constants.ManagerRole))
+                        {
+                            TempData["success"] = "Employee added successfully";
+                            return RedirectToPage("/Customer/Home/Index");
+                        }
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
